@@ -5,6 +5,11 @@ upstreams:
   - name: fs
     command: npx
     args: ["-y", "@modelcontextprotocol/server-filesystem", "/app"]
+  # Chrome DevTools — attaches to the host Chrome already running with
+  # --remote-debugging-port=9222 (needs network_mode: host, see docker-compose.yml).
+  - name: chrome-devtools
+    command: chrome-devtools-mcp
+    args: ["--browser-url=http://127.0.0.1:9222"]
 
 # NOTE: allowlist is NOT enforced in this MVP (auth/allowlist = openspec group 4,
 # skipped on purpose). Every upstream tool is exposed. Don't expose anything you
