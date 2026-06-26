@@ -1,0 +1,11 @@
+# Upstream local MCP servers to bridge. Each is spawned as a stdio subprocess.
+# MVP: the official read/write filesystem server, rooted at the mounted repo (/app).
+# Point it elsewhere by mounting a host dir into the container and listing it here.
+upstreams:
+  - name: fs
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "/app"]
+
+# NOTE: allowlist is NOT enforced in this MVP (auth/allowlist = openspec group 4,
+# skipped on purpose). Every upstream tool is exposed. Don't expose anything you
+# wouldn't hand to the cloud assistant directly.

@@ -1,0 +1,21 @@
+services:
+  bridge:
+    build: .
+    command: python -m bridge          # live-reload by re-running; code is mounted
+    env_file: .env
+    volumes:
+      - .:/app                          # edit on host, run in container
+    ports:
+      - "8000:8000"                     # gateway HTTP endpoint
+
+  # ngrok tunnel — only with: docker compose --profile tunnel up
+  ngrok:
+    image: ngrok/ngrok:latest
+    profiles: ["tunnel"]
+    command: http bridge:8000
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+    ports:
+      - "4040:4040"                     # ngrok inspector / local API
+    depends_on:
+      - bridge
